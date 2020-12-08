@@ -1,0 +1,218 @@
+﻿@model List<ControleImoveis.Web.Models.AnuncioModel>
+@{
+    Layout = "~/Views/Shared/_Cadastro.cshtml";
+    ViewBag.Title = "Anuncio";
+    ViewBag.Lista = Model;
+}
+
+
+@section Styles {
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Content/Cadastro/Anuncio.css" rel="stylesheet" />
+}
+
+@section TituloGrid {
+    <th width="60px"><span class="coluna-ordenacao" data-campo="">Referencia</span></th>
+    <th><span class="coluna-ordenacao" data-campo="">Negocio</span></th>
+    <th><span class="coluna-ordenacao" data-campo="">Bairro</span></th>
+    <th><span class="coluna-ordenacao" data-campo="">Cidade </span></th>
+    <th><span class="coluna-ordenacao" data-campo="">Tipo Imovel</span></th>
+    <th width="100px"><span class="coluna-ordenacao" data-campo="">Preco</span></th>
+    <th width="60px"><span class="coluna-ordenacao" data-campo="">Ativo</span></th>
+    <th width="100px">Ação</th>
+}
+
+@section LinhaGrid{
+    @{
+        var linha = 0;
+        foreach (var item in Model)
+        {
+            linha++;
+            if (linha <= ViewBag.QuantMaxLinhasPorPagina)
+            {
+                var ativo = (item.Ativo ? "SIM" : "NÃO");
+
+                <tr data-id="@item.Id">
+                    <td>@item.Referencia</td>
+                    <td>@item.TipoNegocio</td>
+                    <td>@item.Bairro</td>
+                    <td>@item.Cidade</td>
+                    <td>@item.TipoImovel</td>
+                    <td>@item.Preco</td>
+                    <td>@ativo</td>
+                    <td>
+                        <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> </a>
+                        <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> </a>
+                        <a class="btn btn-primary btn-imagens" role="button"><i class="glyphicon glyphicon-camera"></i> </a>
+                        <a class="btn btn-primary btn-consultar" role="button"><i class="glyphicon glyphicon-search"></i> </a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+}
+
+@section CamposCadastro
+{
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel with-nav-tabs panel-default">
+                <div class="panel-heading">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a href="#tab1default" data-toggle="tab"><span class="glyphicon glyphicon-plus"></span> Incluir</a></li>
+                        <li><a href="#tab2default" data-toggle="tab"><span class="glyphicon glyphicon-camera"></span> Imagens</a></li>
+                    </ul>
+                </div>
+                <div class="panel-body">
+                    <div class="tab-content">
+                        <div class="tab-pane fade in active" id="tab1default">
+
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Label("ddl_estado", "Estado", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_estado", new SelectList(ViewBag.Estados, "Id", "Nome"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.Label("ddl_cidade", "Cidade", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_cidade", new SelectList(ViewBag.Cidade, "Nome"), new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("ddl_regiao", "Região", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_regiao", new SelectList(ViewBag.regiao, "Nome"), new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("ddl_bairro", "Bairro", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_bairro", new SelectList(ViewBag.Bairro, "Nome"), new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    @Html.Label("txt_referencia", "Referência", new { @class = "control-label" })
+                                    @Html.TextBox("txt_referencia", null, new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-2">
+                                    @Html.Label("ddl_negocio", "Negocio", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_negocio", new SelectList(ViewBag.negocio, "Nome"), new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("ddl_tipoimovel", "TipoImovel", new { @class = "control-label" })
+                                    @Html.DropDownList("ddl_tipoimovel", new SelectList(ViewBag.tipoimovel, "Id", "Nome"), new { @class = "form-control" })
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("txt_preco", "Preço", new { @class = "control-label" })
+                                    @Html.TextBox("txt_preco", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.Label("txt_dormitorio", "Dormitorio", new { @class = "control-label" })
+
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                        </span>
+
+                                        @Html.TextBox("txt_dormitorio", null, new { @class = "form-control text-center" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("txt_vagas", "Vagas", new { @class = "control-label" })
+
+                                    <div class="input-group number-spinner">
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="dwn"><span class="glyphicon glyphicon-minus"></span></button>
+                                        </span>
+
+                                        @Html.TextBox("txt_vagas", null, new { @class = "form-control text-center" })
+                                        <span class="input-group-btn">
+                                            <button class="btn btn-default" data-dir="up"><span class="glyphicon glyphicon-plus"></span></button>
+                                        </span>
+                                    </div>
+
+                                </div>
+                                <div class="col-md-4">
+                                    @Html.Label("txt_area", "Area", new { @class = "control-label" })
+                                    @Html.TextBox("txt_area", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 15px">
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        @Html.CheckBox("cbx_permuta", new { @class = "form-check-input" })
+                                        @Html.Label("cbx_permuta", "Permuta", new { @class = "form-check-label" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" style="margin-top: 15px">
+                                <div class="col-md-12">
+                                    <div class="form-check">
+                                        @Html.CheckBox("cbx_ativo", new { @class = "form-check-input" })
+                                        @Html.Label("cbx_ativo", "Ativo", new { @class = "form-check-label" })
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    @Html.Label("txt_descricao", "Descrição", new { @class = "control-label" })
+                                    @Html.TextArea("txt_descricao", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab2default">
+                            @Html.Label("txt_imagem", "Imagem", new { @class = "control-label" })
+                            <div class="form-inline">
+                                <div class="form-group">
+                                    <input type="file" class="form-control" id="files" multiple />
+                                </div>
+                                <a id="btnUpload" class="btn btn-primary btn-send" role="button"><i class="glyphicon glyphicon-send"></i> </a>
+                            </div>
+                            <div id="images" class="raw"> </div>
+                        </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+}
+
+@section Scripts{
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script>
+    var tituloPagina = '@ViewBag.Title';
+        var url_excluir = '@Url.Action("ExcluirAnuncio", "CadAnuncio")';
+        var url_confirmar = '@Url.Action("SalvarAnuncio", "CadAnuncio")';
+        var url_page_click = '@Url.Action("AnuncioPagina", "CadAnuncio")';
+        var url_tam_pag_change = '@Url.Action("AnuncioPagina", "CadAnuncio")';
+        var url_filtro_change = '@Url.Action("AnuncioPagina", "CadAnuncio")';
+        var url_alterar = '@Url.Action("RecuperarAnuncio", "CadAnuncio")';
+        var url_listar_cidades = '@Url.Action("RecuperarCidadesDoEstado", "Cadcidade")';
+        var url_listar_bairro = '@Url.Action("RecuperarBairrosDaCidade", "CadBairro")';
+        var incluir_imagens = '@Url.Action("UploadFiles", "CadAnuncio")';
+    </script>
+
+    <script>
+      
+    </script>
+    <script>
+       
+
+
+
+
+    </script>
+
+    <script src="~/Scripts/Cadastro/Anuncio.js"></script>
+}

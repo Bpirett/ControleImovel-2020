@@ -1,0 +1,77 @@
+﻿@model List<ControleImoveis.Web.Models.RelatAnunciosModel>
+@{ Layout = ""; }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Anuncios</title>
+    @Styles.Render("~/Content/css")
+
+    <style>
+        table th:nth-child(1) {
+            width: 10%;
+        }
+
+        table td:nth-child(1) {
+            text-align: right;
+        }
+
+        table td:nth-child(2) {
+            text-align: left;
+        }
+
+        table th:nth-child(3) {
+            width: 10%;
+        }
+
+        table td:nth-child(3) {
+            text-align: right;
+        }
+
+        table td:nth-child(4) {
+            text-align: right;
+        }
+
+        tr {
+            page-break-inside: avoid;
+        }
+    </style>
+
+</head>
+<body>
+    <div class="col-md-12 text-center">
+        <img src="~/Content/Imagens/logo.png" style="height: 80px" />
+        <h3>Anuncios</h3>
+    </div>
+    <h3>Posição no Estoque</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Referencia</th>
+                <th>Preco</th>
+                <th>datacadastro</th>
+                <th>Ativo</th>
+                <th>Cidade</th>
+                <th>Bairro</th>
+                <th>Regiao</th>
+                <th>Negocio</th>
+                <th>Tipo imovel</th>
+            </tr>
+        </thead>
+        @{ foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Referencia</td>
+                    <td>@item.Preco</td>
+                    <td>@item.datacadastro</td>
+                    <td>@item.Ativo</td>
+                    <td>@item.Cidade</td>
+                    <td>@item.Bairro</td>
+                    <td>@item.Regiao</td>
+                    <td>@item.TipoNegocio</td>
+                    <td>@item.TipoImovel</td>
+
+                </tr> } }
+    </table>
+</body>
+</html>

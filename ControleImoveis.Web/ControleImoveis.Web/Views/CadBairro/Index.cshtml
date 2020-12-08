@@ -1,0 +1,109 @@
+﻿@model List<ControleImoveis.Web.Models.BairroModel>
+    
+@{
+    Layout = "~/Views/Shared/_Cadastro.cshtml";
+    ViewBag.Title = "Bairro";
+    ViewBag.Lista = Model;
+}
+
+
+@section Styles {
+    <link href="~/Content/bootstrap-select.css" rel="stylesheet" />
+    <link href="~/Content/Cadastro/Bairro.css" rel="stylesheet" />
+}
+
+@section TituloGrid {
+    <th><span class="coluna-ordenacao" data-campo="c.nome">Nome</span></th>
+    <th><span class="coluna-ordenacao" data-campo="e.nome">Cidade</span></th>
+    <th><span class="coluna-ordenacao" data-campo="e.nome">Região</span></th>
+    <th><span class="coluna-ordenacao" data-campo="c.ativo">Ativo</span></th>
+    <th>Ação</th>
+}
+
+@section LinhaGrid{
+    @{
+        var linha = 0;
+        foreach (var item in Model)
+        {
+            linha++;
+            if (linha <= ViewBag.QuantMaxLinhasPorPagina)
+            {
+                var ativo = (item.Ativo ? "SIM" : "NÃO");
+
+                <tr data-id="@item.Id">
+                    <td>@item.Nome</td>
+                    <td>@item.NomeCidade</td>
+                    <td>@item.NomeRegiao</td>
+                    <td>@ativo</td>
+                    <td>
+                        <a class="btn btn-primary btn-alterar" role="button"><i class="glyphicon glyphicon-pencil"></i> Alterar</a>
+                        <a class="btn btn-danger btn-excluir" role="button"><i class="glyphicon glyphicon-trash"></i> Excluir</a>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+}
+
+@section CamposCadastro
+{
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Label("txt_nome", "Nome", new { @class = "control-label" })
+            @Html.TextBox("txt_nome", null, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Label("ddl_pais", "País", new { @class = "control-label" })
+            @Html.DropDownList("ddl_pais", new SelectList(ViewBag.Paises, "Id", "Nome"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Label("ddl_estado", "Estado", new { @class = "control-label" })
+            @Html.DropDownList("ddl_estado", new SelectList(ViewBag.Estados, "Id", "Nome"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Label("ddl_cidade", "Cidade", new { @class = "control-label" })
+            @Html.DropDownList("ddl_cidade", new SelectList(ViewBag.Cidade, "Id", "Nome"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            @Html.Label("ddl_regiao", "Região", new { @class = "control-label" })
+            @Html.DropDownList("ddl_regiao", new SelectList(ViewBag.regiao, "Nome"), new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-12">
+            <div class="form-check">
+                @Html.CheckBox("cbx_ativo", new { @class = "form-check-input" })
+                @Html.Label("cbx_ativo", "Ativo", new { @class = "form-check-label" })
+            </div>
+        </div>
+    </div>
+
+}
+
+@section Scripts{
+    <script src="~/Scripts/bootstrap-select.js"></script>
+    <script>
+    var tituloPagina = '@ViewBag.Title';
+        var url_excluir = '@Url.Action("ExcluirBairro", "CadBairro")';
+        var url_confirmar = '@Url.Action("SalvarBairro", "CadBairro")';
+        var url_page_click = '@Url.Action("BairroPagina", "CadBairro")';
+        var url_tam_pag_change = '@Url.Action("BairroPagina", "CadBairro")';
+        var url_filtro_change = '@Url.Action("BairroPagina", "CadBairro")';
+        var url_alterar = '@Url.Action("RecuperarBairro", "CadBairro")';
+        var url_listar_estados = '@Url.Action("RecuperarEstadosDoPais", "CadEstado")';
+         var url_listar_cidades = '@Url.Action("RecuperarCidadesDoEstado", "Cadcidade")';
+    </script>
+    <script src="~/Scripts/Cadastro/Bairro.js"></script>
+}
